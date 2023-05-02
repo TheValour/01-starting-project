@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
-import Button from '../UI/Button/Button';
 import AuthContext from '../context/auth-context';
+import Input from './Input.js'
+import Button from '../UI/Button/Button';
 
 const emailReducer = (state, actions) => {
   if (actions.type === 'USER_INPUT') {
@@ -23,7 +24,7 @@ const passwordReducer = (state, actions) => {
   return { value: '', isValid: null }
 }
 
-const Login = (props) => {
+const Login = () => {
   const authCtx = useContext(AuthContext)
 
   const [formIsValid, setFormIsValid] = useState(false);
@@ -76,32 +77,24 @@ const Login = (props) => {
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <div
-          className={`${classes.control} ${email.isValid === false ? classes.invalid : ''
-            }`}
-        >
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            value={email.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
-        <div
-          className={`${classes.control} ${password.isValid === false ? classes.invalid : ''
-            }`}
-        >
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password.value}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-          />
-        </div>
+        <Input
+          id="email"
+          label="E-mail"
+          type="email"
+          isValid={emailIsValid}
+          value={email.value}
+          onChange={emailChangeHandler}
+          onBlur={validateEmailHandler}
+        />
+        <Input
+          id="password"
+          label="Password"
+          type="password"
+          isValid={passwordIsValid}
+          value={password.value}
+          onChange={passwordChangeHandler}
+          onBlur={validatePasswordHandler}
+        />
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
             Login
